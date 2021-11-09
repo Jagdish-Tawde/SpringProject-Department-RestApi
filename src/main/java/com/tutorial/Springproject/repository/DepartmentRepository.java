@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import com.tutorial.Springproject.entity.Department;
 
+import java.util.Optional;
+
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
-     Department findBydapartmentName(String name);
+     Optional<Department> findBydepartmentName(String name);
 }

@@ -1,63 +1,49 @@
 package com.tutorial.Springproject.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Department {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public long departmentId;
 
+	//javax validations
 	@NotBlank(message = "please add Department name")
-	public String dapartmentName;
-	public String dapartmentAddress;
-	public String dapartmentCode;
-	
-	public long getDepartmentId() {
-		return departmentId;
-	}
-	public void setDepartmentId(long departmentId) {
-		this.departmentId = departmentId;
-	}
-	public String getDapartmentName() {
-		return dapartmentName;
-	}
-	public void setDapartmentName(String dapartmentName) {
-		this.dapartmentName = dapartmentName;
-	}
-	public String getDapartmentAddress() {
-		return dapartmentAddress;
-	}
-	public void setDapartmentAddress(String dapartmentAddress) {
-		this.dapartmentAddress = dapartmentAddress;
-	}
-	public String getDapartmentCode() {
-		return dapartmentCode;
-	}
-	public void setDapartmentCode(String dapartmentCode) {
-		this.dapartmentCode = dapartmentCode;
-	}
-	public Department(long departmentId, String dapartmentName, String dapartmentAddress, String dapartmentCode) {
-		super();
-		this.departmentId = departmentId;
-		this.dapartmentName = dapartmentName;
-		this.dapartmentAddress = dapartmentAddress;
-		this.dapartmentCode = dapartmentCode;
-	}
-	@Override
-	public String toString() {
-		return "Department [departmentId=" + departmentId + ", dapartmentName=" + dapartmentName
-				+ ", dapartmentAddress=" + dapartmentAddress + ", dapartmentCode=" + dapartmentCode + "]";
-	}
-	public Department() {
-		super();
-	}
 
-	
-	
+	/*@Length(max = 5, min = 1,message = "")
+	@Size(max = 10, min=0)
+	@Email(regexp = "")
+
+	//related to number
+	@Positive
+	@Negative
+	@PositiveOrZero
+	@NegativeOrZero
+
+	//reletead to date
+	@Future
+	@FutureOrPresent
+    @Past
+	@PastOrPresent*/
+	public String departmentName;
+	public String departmentAddress;
+	public String departmentCode;
+
+
 }

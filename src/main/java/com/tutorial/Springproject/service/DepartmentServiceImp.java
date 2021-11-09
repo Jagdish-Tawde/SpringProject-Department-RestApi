@@ -2,7 +2,11 @@ package com.tutorial.Springproject.service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
+import com.tutorial.Springproject.error.DepartmentNameNotFoundExceptionn;
+import com.tutorial.Springproject.error.DepartmentNotFoundException;
+import com.tutorial.Springproject.error.NoListOfDepartmentFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +26,25 @@ public class DepartmentServiceImp implements DepartmentService {
 	}
 
 	@Override
-	public List<Department> fethAllrecords() {
+	public List<Department> fethAllrecords() throws NoListOfDepartmentFoundException {
 		// TODO Auto-generated method stub
-		return departmentrepository.findAll();
+		List<Department> listOfDepartment = departmentrepository.findAll();
+		if(listOfDepartment.isEmpty()){
+			throw new NoListOfDepartmentFoundException("No Department is inserted as of now");
+		}
+		return listOfDepartment;
 	}
 
 	@Override
-	public Department fetchDepartmentbyId(long departmentId) {
+	public Department fetchDepartmentbyId(long departmentId) throws DepartmentNotFoundException {
 		// TODO Auto-generated method stub
-		return departmentrepository.findById(departmentId).get();
+
+				Optional<Department> department = departmentrepository.findById(departmentId);
+		if(!department.isPresent()){
+			throw new DepartmentNotFoundException("Department Not available");
+		}
+
+		return department.get();
 	}
 
 	@Override
@@ -45,19 +59,19 @@ public class DepartmentServiceImp implements DepartmentService {
 		// TODO Auto-generated method stub
 		Department depDB = departmentrepository.findById(departmentId).get();
 		
-		if(Objects.nonNull(department.getDapartmentName())&&
-				!"".equalsIgnoreCase(department.getDapartmentName())) {
-			depDB.setDapartmentName(department.getDapartmentName());
+		if(Objects.nonNull(department.getDepartmentName())&&
+				!"".equalsIgnoreCase(department.getDepartmentName())) {
+			depDB.setDepartmentName(department.getDepartmentName());
 		}
 		
-		if(Objects.nonNull(department.getDapartmentAddress())&&
-				!"".equalsIgnoreCase(department.dapartmentAddress)) {
-			depDB.setDapartmentAddress(department.getDapartmentAddress());
+		if(Objects.nonNull(department.getDepartmentAddress())&&
+				!"".equalsIgnoreCase(department.departmentAddress)) {
+			depDB.setDepartmentAddress(department.getDepartmentAddress());
 		}
 		
-		if(Objects.nonNull(department.getDapartmentCode())&&
-				!"".equalsIgnoreCase(department.dapartmentCode)) {
-			depDB.setDapartmentCode(department.getDapartmentCode());
+		if(Objects.nonNull(department.getDepartmentCode())&&
+				!"".equalsIgnoreCase(department.departmentCode)) {
+			depDB.setDepartmentCode(department.getDepartmentCode());
 		}
 		
 		
@@ -65,8 +79,12 @@ public class DepartmentServiceImp implements DepartmentService {
 	}
 
 	@Override
-	public Department fetchDepartmentbyName(String name) {
-		return departmentrepository.findBydapartmentName(name);
+	public Department fetchDepartmentbyName(String name) throws DepartmentNameNotFoundExceptionn {
+		Optional<Department> departmentByName = departmentrepository.findBydepartmentName(name);
+		if(!departmentByName.isPresent()){
+			throw new DepartmentNameNotFoundExceptionn("DepartmentName is not available");
+		}
+		return departmentByName.get();
 	}
 
 
